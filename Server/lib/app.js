@@ -7,8 +7,8 @@ var _http = _interopRequireDefault(require("http"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express.default)();
-var ip = process.env.IP || '0.0.0.0';
-var port = process.env.PORT || 8080;
+var ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 app.get('/', function (req, res) {
   return res.send('Hello World!');
 });
