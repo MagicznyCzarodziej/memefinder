@@ -1,27 +1,50 @@
 <template>
   <div id="app">
     <div id="searchBar">
-      <input type="text" name="searchBar" placeholder="np. kermit, deszcz, smutek">
+      <input type="text" name="searchBar" placeholder="np. kermit, deszcz, smutek" v-model="query">
     </div>
     <div id="foundLabel">
-      <!-- Znaleziono 1 memik ヽ( ͝° ͜ʖ͡°)ﾉ -->
-      <!-- Nie znaleziono żadnego memika ( ͡° ʖ̯ ͡°)ﾉ⌐■-■  -->
-      Znaleziono 7 memików ( ͡€ ͜ʖ ͡€)
+      <span v-if="foundCount > 4">Znaleziono {{ foundCount }} memików ( ͡€ ͜ʖ ͡€)</span>
+      <span v-else-if="foundCount > 1">Znaleziono {{ foundCount }} memiki ( ͡€ ͜ʖ ͡€)</span>
+      <span v-else-if="foundCount == 1">Znaleziono 1 memik ヽ( ͝° ͜ʖ͡°)ﾉ</span>
+      <span v-else>Nie znaleziono żadnego memika ( ͡° ʖ̯ ͡°)ﾉ⌐■-■ </span>
     </div>
     <div id="foundList">
-      <!-- <div class="memeThumbnail">
-        <img src="" alt="">
-      </div> -->
+      <Item v-for="(meme, index) in allMemes" :key="index" v-bind:src="meme.link"></Item>
     </div>
   </div>
 </template>
 
 <script>
+import Item from '@/Item';
+import Api from '@/services/Api';
+
+let foundCount = 0;
+let allMemes;
+let query = "";
+
 export default {
   name: 'app',
+  components: {
+    Item,
+  },
   data () {
     return {
-      
+      query,
+      foundCount,
+      allMemes,
+    };
+  },
+  beforeCreate: async function () {
+    const response = await Api.getAll();
+    this.allMemes = response.data.data;
+    this.foundCount = this.allMemes.length;
+  },
+  watch: {
+    query: (newQuery, oldQuery) => {
+      if (newQuery.length < 3) return;
+      newQuery = newQuery.replace(/[^,\w]/g, "");
+      const parts = newQuery.match(/\w+/g);
     }
   }
 }
