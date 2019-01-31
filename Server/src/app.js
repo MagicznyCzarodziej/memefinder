@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/all', controller.getAll);
-app.put('/add', controller.add);
+app.post('/add', controller.add);
 app.delete('/remove', controller.delete);
 
 app.listen(port, ip, () => {

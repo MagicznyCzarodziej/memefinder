@@ -1,12 +1,15 @@
 <template>
   <div id="app">
     <div id="searchBar">
-      <input type="text" name="searchBar" placeholder="np. kermit, deszcz, smutek" v-model="query">
-      <div id="foundLabel">
-        <span v-if="foundCount > 4">Znaleziono {{ foundCount }} memików ( ͡€ ͜ʖ ͡€)</span>
-        <span v-else-if="foundCount > 1">Znaleziono {{ foundCount }} memiki ( ͡€ ͜ʖ ͡€)</span>
+      <input type="text" name="searchBar" placeholder="np. kermit, pikachu, pepe" v-model="query">
+      <div v-if="query.length > 1" id="foundLabel">
+        <span v-if="foundCount > 4">Znaleziono {{ foundCount }} memików ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
+        <span v-else-if="foundCount > 1">Znaleziono {{ foundCount }} memiki ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
         <span v-else-if="foundCount === 1">Znaleziono 1 memik ヽ( ͝° ͜ʖ͡°)ﾉ</span>
         <span v-else>Nie znaleziono żadnego memika ( ͡° ʖ̯ ͡°)ﾉ⌐■-■ </span>
+      </div>
+      <div v-else id="foundLabel">
+        <span>Mamy w bazie {{ foundCount }} memików ( ͡€ ͜ʖ ͡€)</span>
       </div>
     </div>
     
@@ -35,13 +38,13 @@ export default {
   created: async function () {
     const response = await Api.getAll();
     this.allMemes = response.data.data;
-    this.foundMemes = this.allMemes.slice(0, 10);
+    this.foundMemes = this.allMemes.slice(0, 15);
     self = this;
   },
   watch: {
     query: (newQuery, oldQuery) => {
       if (newQuery.length < 2) {
-        self.foundMemes = [];
+        self.foundMemes = self.allMemes.slice(0, 15);
         return;
       }
       newQuery = newQuery.replace(/[^,\sąęłńóśźż\w]/g, "");
