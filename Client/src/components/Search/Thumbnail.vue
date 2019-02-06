@@ -47,22 +47,22 @@ export default {
 }
 .memeThumbnail > img:hover + .tags {
   visibility : visible;
+  transition-delay: 0.5s;
 }
 .tags {
   width: 100%;
   box-sizing: border-box;
-  visibility: hidden;
   position: absolute;
+  visibility: hidden;
   bottom: 0;
   background-color: #fff;
   font-size: 0.7rem;
   color: #aaa;
   text-align: center;
   padding: 0.4rem;
-  border-bottom-left-radius: 0.3rem;
-  border-bottom-right-radius: 0.3rem;
+  border-bottom-left-radius: 0.35rem;
+  border-bottom-right-radius: 0.35rem;
   box-shadow: 0 -0.1rem 0.1rem rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s;
 }
 .tags:hover {
   visibility: visible;

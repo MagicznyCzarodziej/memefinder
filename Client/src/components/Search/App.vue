@@ -27,6 +27,8 @@
 import Thumbnail from '@/components/Search/Thumbnail';
 import Api from '@/services/Api';
 
+document.title = 'MemeFinder';
+
 function shuffle(a) {
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -53,13 +55,13 @@ export default {
     this.allMemes = response.data.data;
     shuffle(this.allMemes)
     const length = this.allMemes.length;
-    this.foundMemes = this.allMemes.slice(0, 40);
+    this.foundMemes = this.allMemes.slice(0, 50);
     self = this;
   },
   watch: {
     query: (newQuery, oldQuery) => {
       if (newQuery.length < 2) {
-        self.foundMemes = self.allMemes.slice(0, 40);
+        self.foundMemes = self.allMemes.slice(0, 50);
         return;
       }
       newQuery = newQuery.toLowerCase();
@@ -100,12 +102,11 @@ body {
   margin: 0;
 }
 #app {
-  margin: 0 5rem;
+  margin: 2rem 5rem;
 }
 #searchBar {
   margin-left: auto;
   margin-right: auto;
-  padding-top: 2rem;
   width: 40rem;
 }
 #searchBar input {
