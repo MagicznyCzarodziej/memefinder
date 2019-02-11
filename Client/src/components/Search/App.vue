@@ -3,9 +3,9 @@
     <div id="searchBar">
       <input type="text" name="searchBar" placeholder="np. kermit, pikachu, pepe" autofocus v-model="query">
       <div v-if="query.length > 1" id="foundLabel">
-        <span v-if="foundCount > 4">Znaleziono {{ foundCount }} memików ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
-        <span v-else-if="foundCount > 1">Znaleziono {{ foundCount }} memiki ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
-        <span v-else-if="foundCount === 1">Znaleziono 1 memik ヽ( ͝° ͜ʖ͡°)ﾉ</span>
+        <span v-if="foundCount % 10 > 4">Znaleziono {{ foundCount }} memików ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
+        <span v-else-if="foundCount % 10 > 1">Znaleziono {{ foundCount }} memiki ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
+        <span v-else-if="foundCount % 10 === 1">Znaleziono 1 memik ヽ( ͝° ͜ʖ͡°)ﾉ</span>
         <span v-else>Nie znaleziono żadnego memika ( ͡° ʖ̯ ͡°)ﾉ⌐■-■ </span>
       </div>
       <div v-else id="foundLabel">
