@@ -29,6 +29,8 @@ import Api from '@/services/Api';
 
 document.title = 'MemeFinder';
 
+let timer = 0;
+
 function shuffle(a) {
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -55,30 +57,34 @@ export default {
     this.allMemes = response.data.data;
     shuffle(this.allMemes)
     const length = this.allMemes.length;
-    this.foundMemes = this.allMemes.slice(0, 50);
+    this.foundMemes = this.allMemes.slice(0, 20);
     self = this;
   },
   watch: {
     query: (newQuery, oldQuery) => {
-      if (newQuery.length < 2) {
-        self.foundMemes = self.allMemes.slice(0, 50);
-        return;
-      }
-      newQuery = newQuery.toLowerCase();
-      newQuery = newQuery.replace(/[^,\sąęłńóśźż\w]/g, "");
-      let parts = newQuery.match(/[\w\sąęłńóśźż]+/g);
+      // Debouncer
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (newQuery.length < 2) {
+          self.foundMemes = self.allMemes.slice(0, 20);
+          return;
+        }
+        newQuery = newQuery.toLowerCase();
+        newQuery = newQuery.replace(/[^,\sąęłńóśźż\w]/g, "");
+        let parts = newQuery.match(/[\w\sąęłńóśźż]+/g);
 
-      self.foundMemes = self.allMemes.filter((meme) => {
-        let flag = false;
-        const tags = meme.tags.join(',');
-        
-        parts.forEach(q => {
-          const index = tags.search(q);
-          flag = index !== -1;
+        self.foundMemes = self.allMemes.filter((meme) => {
+          let flag = false;
+          const tags = meme.tags.join(',');
+          
+          parts.forEach(q => {
+            const index = tags.search(q);
+            flag = index !== -1;
+          });
+
+          return flag;
         });
-
-        return flag;
-      });
+      }, 400);
     }
   },
   computed: {
@@ -137,10 +143,6 @@ body {
   line-height: 2rem;
 }
 #foundList {
-  /* display: flex; */
-  /* flex-direction: column wrap; */
-  /* flex-wrap: wrap; */
-  /* justify-content: center; */
   -webkit-column-width: 9.5rem;
   -moz-column-width: 9.5rem;
   column-width: 9.5rem;

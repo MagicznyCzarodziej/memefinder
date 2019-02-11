@@ -28,6 +28,9 @@ export default {
 <style>
 .memeThumbnail {
   margin-bottom: 1rem;    
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
   width: 1%;
   display: table;
   position: relative;

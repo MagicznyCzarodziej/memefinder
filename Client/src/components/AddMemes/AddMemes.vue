@@ -13,8 +13,6 @@
 import Imgur from '@/services/Imgur';
 import Api from '@/services/Api';
 
-document.title = 'MemeFinder / Dodaj';
-
 export default {
   name: 'AddMemes',
   data () {
