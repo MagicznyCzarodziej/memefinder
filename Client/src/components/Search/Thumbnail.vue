@@ -2,7 +2,10 @@
   <div class="memeThumbnail">
     <img :src=src alt="" @click="enlarge">
     <div class="tags">
-      {{ tags.join(', ') }}
+      <!-- {{ tags.join(', ') }} -->
+      <span v-for="tag in tags" :key=tag>
+        <a :href="'?'+tag">{{ tag }}</a>, 
+      </span>
     </div>
   </div>
 </template>
@@ -59,8 +62,8 @@ export default {
   visibility: hidden;
   bottom: 0;
   background-color: #fff;
-  font-size: 0.7rem;
   color: #aaa;
+  font-size: 0.7rem;
   text-align: center;
   padding: 0.4rem;
   border-bottom-left-radius: 0.35rem;
@@ -69,5 +72,12 @@ export default {
 }
 .tags:hover {
   visibility: visible;
+}
+.tags a {
+  color: #aaa;
+  text-decoration: none;
+}
+.tags a:hover {
+  color: #555;
 }
 </style>

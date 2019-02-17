@@ -3,7 +3,8 @@
     <div id="searchBar">
       <input type="text" name="searchBar" placeholder="np. kermit, pikachu, pepe" autofocus v-model="query">
       <div v-if="query.length > 1" id="foundLabel">
-        <span v-if="foundCount % 10 > 4">Znaleziono {{ foundCount }} memików ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
+        <span v-if="searching">Szukanie (・へ・)</span>
+        <span v-else-if="foundCount % 10 > 4">Znaleziono {{ foundCount }} memików ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
         <span v-else-if="foundCount % 10 > 1">Znaleziono {{ foundCount }} memiki ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
         <span v-else-if="foundCount % 10 === 1">Znaleziono 1 memik ヽ( ͝° ͜ʖ͡°)ﾉ</span>
         <span v-else>Nie znaleziono żadnego memika ( ͡° ʖ̯ ͡°)ﾉ⌐■-■ </span>
@@ -19,6 +20,15 @@
     
     <div id="foundList">
       <Thumbnail v-for="(meme, index) in foundMemes" :key="index" :src="meme.link" :tags="meme.tags"></Thumbnail>
+    </div>
+    <div id="tagsCloud">
+      <a href="?co">co</a> 
+      <a href="?śmiech">śmiech</a> 
+      <a href="?meksykanin">meksykanin</a> 
+      <a href="?gwiezdne wojny">gwiezdne wojny</a>
+      <a href="?komputer">komputer</a>
+      <a href="?głowa">głowa</a>
+      <a href="?kot">kot</a>
     </div>
   </div>
 </template>
@@ -57,14 +67,14 @@ export default {
     this.allMemes = response.data.data;
     shuffle(this.allMemes)
     const length = this.allMemes.length;
-    this.foundMemes = this.allMemes.slice(0, 20);
+    this.query = decodeURIComponent(window.location.search.substring(1));
+    if (!this.query) this.foundMemes = this.allMemes.slice(0, 20);
+  
     self = this;
   },
   watch: {
     query: (newQuery, oldQuery) => {
-      // Debouncer
-      clearTimeout(timer);
-      timer = setTimeout(() => {
+      function displayMemes() {
         if (newQuery.length < 2) {
           self.foundMemes = self.allMemes.slice(0, 20);
           return;
@@ -84,6 +94,14 @@ export default {
 
           return flag;
         });
+      }
+
+      // Debouncer
+      self.searching = true;
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        displayMemes();
+        self.searching = false;
       }, 400);
     }
   },
@@ -146,5 +164,19 @@ body {
   -webkit-column-width: 9.5rem;
   -moz-column-width: 9.5rem;
   column-width: 9.5rem;
+}
+#tagsCloud {
+  margin-top: 1rem;
+  text-align: center;
+}
+#tagsCloud a {
+  color: #aaa;
+  text-decoration: none;
+  background-color: #eee;
+  border-radius: 0.3rem;
+  padding: 0.1rem 0.3rem;
+}
+#tagsCloud a:hover {
+  background-color: #ddd;
 }
 </style>
