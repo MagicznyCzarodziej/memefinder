@@ -1,9 +1,19 @@
 {
-    "apiUrl": "",
-    "imgur": {
-        "url": "",
-        "auth": "",
-        "album": ""
+    "development": {
+        "apiUrl": "",
+        "imgur": {
+            "url": "",
+            "auth": "",
+            "album": ""
+        }
+    },
+    "production": {
+        "apiUrl": "",
+        "imgur": {
+            "url": "",
+            "auth": "",
+            "album": ""
+        }
     }
 }
   

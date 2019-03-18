@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import App from '@/components/Search/App.vue';
 import AddMemes from '@/components/AddMemes/AddMemes.vue';
+import EditMeme from '@/components/EditMeme/EditMeme.vue';
 
 const routes = {
   '/': App,
   '/AddMemes': AddMemes,
+  '/EditMeme': EditMeme,
 }
 
 new Vue({

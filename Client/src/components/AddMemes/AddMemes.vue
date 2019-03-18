@@ -41,7 +41,7 @@ export default {
       }
       const type = types[extension];
       const meme = {
-        name: this.name,
+        name: this.name.toLowerCase(),
         tags: this.tags,
         type,
         link,
@@ -66,7 +66,7 @@ export default {
   computed: {
     tags: {
       get: function () {
-        return this.tagsString.split('\n');
+        return this.tagsString.toLowerCase().split('\n');
       }
     },
   },

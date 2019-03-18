@@ -19,7 +19,7 @@
     </div>
     
     <div id="foundList">
-      <Thumbnail v-for="(meme, index) in foundMemes" :key="index" :src="meme.link" :tags="meme.tags"></Thumbnail>
+      <Thumbnail v-for="(meme, index) in foundMemes" :key="index" :src="meme.link" :tags="meme.tags" :data-id="meme._id"></Thumbnail>
     </div>
     <div id="tagsCloud">
       <a href="?co">co</a> 
@@ -120,7 +120,7 @@ export default {
 html {
   font-size: 20px;
   font-family: Roboto, sans-serif;
-  background-color: #f9f9f9;
+  background: url('../../assets/bg.png');
 }
 body {
   margin: 0;

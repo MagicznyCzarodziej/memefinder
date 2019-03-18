@@ -17,8 +17,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/all', controller.getAll);
+app.get('/meme/:id', controller.getById);
 app.post('/add', controller.add);
 app.delete('/remove', controller.delete);
+app.post('/update', controller.update);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);

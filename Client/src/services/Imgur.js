@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { imgur as config } from '@/config';
+import config from '@/config';
 
 // const Api = () => axios.create({
 //     headers: {
@@ -18,15 +18,17 @@ import { imgur as config } from '@/config';
 //     return await Api().post("https://api.imgur.com/3/image", {data: form});
 // }
 
+const env = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+
 async function upload(image) {
     var form = new FormData();
     form.append("image", image);
-    form.append("album", config.album);
+    form.append("album", config[env].imgur.album);
     return await axios({
         method: 'post',
-        url: "https://api.imgur.com/3/image",
+        url: config[env].imgur.url,
         headers: {
-            'Authorization': `Bearer ${config.auth}`,
+            'Authorization': `Bearer ${config[env].imgur.auth}`,
             'content-type': 'multipart/form-data',
         },
         data: form,
