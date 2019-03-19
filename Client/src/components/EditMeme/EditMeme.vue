@@ -4,6 +4,7 @@
         <div class="inputField"><label for="memeName">Nazwa</label><input type="text" name="memeName" id="inpName" v-model="name"></div>
         <div class="inputField"><label for="memeTags">Tagi</label><textarea name="memeTags" id="inpTags" cols="30" rows="10" v-model="tags" ></textarea></div>
         <div class="inputField" v-if="!saving"><input type="submit" id="inpSubmit" value="Zapisz" @click.prevent="save"></div>
+        <div class="inputField"><input type="submit" id="inpRemove" value="Usuń" @click.prevent="remove"></div>
         </div>
 </template>
 
@@ -24,12 +25,17 @@ export default {
         save: async function() {
             this.saving = true;
             const meme = {
-                name: this.name.toLowerCase(),
-                tags: this.tags.toLowerCase().split('\n'),
-
+              id: this.memeId,
+              name: this.name.toLowerCase(),
+              tags: this.tags.toLowerCase().split('\n'),
             }
-            const response = await Api.update();
+            const response = await Api.updateMeme(meme);
             this.saving = false;
+        },
+        remove: async function () {
+          const response = await Api.removeMeme(this.name);
+          window.location.pathname = '/';
+          window.location.search = '';
         }
     },
     created: async function() {
@@ -105,10 +111,17 @@ export default {
     width: 20rem;
     resize: none;
   }
-  #inpSubmit {
+  #inpSubmit, #inpRemove {
     width: 20rem;
     height: 2rem;
     font-size: 1rem;
     border-radius: 0.3rem;
+    color: #fff;
+  }
+   #inpSubmit {
+    background-color: #15c43a;
+  }
+  #inpRemove {
+    background-color: #c42b2b;
   }
 </style>

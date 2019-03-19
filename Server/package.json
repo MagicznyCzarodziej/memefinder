@@ -1,5 +1,5 @@
 {
-  "name": "MemeFinder_server",
+  "name": "memefinder_server",
   "version": "1.0.0",
   "main": "lib/app.js",
   "scripts": {

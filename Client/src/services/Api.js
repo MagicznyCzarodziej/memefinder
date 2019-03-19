@@ -16,17 +16,17 @@ async function getById(id) {
 async function addMeme(meme) {
     return await Api().post('add', meme);
 }
-async function deleteMeme(name) {
-    return await Api().delete('delete', { name });
+async function removeMeme(name) {
+    return await Api().delete('remove', { data: { name } });
 }
 async function updateMeme(meme) {
-    return await Api().update('update', meme);
+    return await Api().post('update', meme);
 }
 
 export default {
     getAll,
     addMeme,
     getById,
-    deleteMeme,
+    removeMeme,
     updateMeme,
 };
