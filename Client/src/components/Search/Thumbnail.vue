@@ -34,16 +34,15 @@ export default {
   -webkit-column-break-inside: avoid;
   page-break-inside: avoid;
   break-inside: avoid;
-  width: 1%;
   display: table;
   position: relative;
+  width: 100%;
 }
 .memeThumbnail img {
   display: block;
-  max-width: 10rem;
-  min-width: 10rem;
+  width: 100%;
   box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.1), 0rem 0rem 0.1rem rgba(0, 0, 0, 0.1);
-  border-radius: 0.4rem;
+  border-radius: 1rem;
   cursor: pointer;
   transition: 0.5s;
 }
@@ -79,5 +78,16 @@ export default {
 }
 .tags a:hover {
   color: #555;
+}
+
+@media (min-width: 1000px) {
+  .memeThumbnail {
+    width: 1%;
+  }
+  .memeThumbnail img {
+    max-width: 10rem;
+    min-width: 10rem;
+    border-radius: 0.4rem;
+  }
 }
 </style>

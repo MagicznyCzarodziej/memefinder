@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <div id="searchBar">
-      <input type="text" name="searchBar" placeholder="np. kermit, pikachu, pepe" autofocus v-model="query">
+      <form onsubmit="document.getElementById('searchInput').blur();return false;" autocomplete="off"><input type="search" id="searchInput" name="searchBar" placeholder="np. kermit, pikachu, pepe" autofocus v-model="query"></form>
       <div v-if="query.length > 1" id="foundLabel">
         <span v-if="searching">Szukanie (・へ・)</span>
-        <span v-else-if="foundCount % 10 > 4">Znaleziono {{ foundCount }} memików ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
-        <span v-else-if="foundCount % 10 > 1">Znaleziono {{ foundCount }} memiki ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
-        <span v-else-if="foundCount % 10 === 1">Znaleziono 1 memik ヽ( ͝° ͜ʖ͡°)ﾉ</span>
-        <span v-else>Nie znaleziono żadnego memika ( ͡° ʖ̯ ͡°)ﾉ⌐■-■ </span>
+        <span v-else-if="foundCount === 0">Nie znaleziono żadnego memika ( ͡° ʖ̯ ͡°)ﾉ⌐■-■ </span>
+        <span v-else-if="foundCount === 1">Znaleziono 1 memik ヽ( ͝° ͜ʖ͡°)ﾉ</span>
+        <span v-else-if="[2,3,4].includes(foundCount % 10) && !([12,13,14].includes(foundCount))">Znaleziono {{ foundCount }} memiki ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
+        <span v-else>Znaleziono {{ foundCount }} memików ( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ</span>
       </div>
       <div v-else id="foundLabel">
         <span>Mamy w bazie {{ allMemes.length }} 
@@ -126,22 +126,21 @@ body {
   margin: 0;
 }
 #app {
-  margin: 2rem 5rem;
+  margin: 3rem 3rem;
 }
 #searchBar {
   margin-left: auto;
   margin-right: auto;
-  width: 40rem;
 }
 #searchBar input {
   width: 100%;
-  height: 3rem;
+  height: 8rem;
   box-sizing: border-box;
-  padding: 0 1rem;
+  padding: 0 3rem;
   background-color: #fff;
-  font-size: 1.2rem;
+  font-size: 3rem;
   font-family: Roboto;
-  border-radius: 0.4rem;
+  border-radius: 1rem;
   border: none;
   box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.1), 0rem 0rem 0.1rem rgba(0, 0, 0, 0.1);
 }
@@ -152,31 +151,66 @@ body {
 #searchBar input::placeholder {
   color: #bbb;
 }
-
 #foundLabel {
   margin: 0.5rem 0 0.5rem 0.5rem;
   color: #aaa;
-  font-size: 0.8rem;
+  font-size: 2rem;
   font-weight: 300;
-  line-height: 2rem;
+  line-height: 5rem;
 }
 #foundList {
-  -webkit-column-width: 9.5rem;
-  -moz-column-width: 9.5rem;
-  column-width: 9.5rem;
+  columns: 2;
 }
 #tagsCloud {
-  margin-top: 1rem;
+  margin-top: 2rem;
   text-align: center;
 }
 #tagsCloud a {
+  font-size: 4rem;
+  margin: 1rem 0;
   color: #aaa;
   text-decoration: none;
   background-color: #eee;
-  border-radius: 0.3rem;
-  padding: 0.1rem 0.3rem;
+  border-radius: 1rem;
+  padding: 0.3rem 1rem;
+  display: block;
 }
 #tagsCloud a:hover {
   background-color: #ddd;
+}
+
+@media (min-width: 1000px) {
+  #app {
+    margin: 2rem 5rem;
+  }
+  #searchBar {
+    width: 40rem;
+  }
+  #searchBar input {
+    height: 3rem;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    border-radius: 0.4rem;
+  }
+  #foundLabel {
+    font-size: 0.8rem;
+    line-height: 2rem;
+  }
+  #foundList {
+    column-count: initial;
+    -webkit-column-width: 9.5rem;
+    -moz-column-width: 9.5rem;
+    column-width: 9.5rem;
+  }
+  #tagsCloud {
+    margin-top: 1rem;
+  }
+  #tagsCloud a {
+    display: inline;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.3rem;
+  }
 }
 </style>
