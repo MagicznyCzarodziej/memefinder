@@ -2,7 +2,7 @@
 
 ## Config
 1. Create `config.json` in `Server\src\`
-2. Create `config.json` in `Client\src\`
+2. Create `.env` in `Client\` (see `.env.template`)
 
 ## Server Setup
 ``` bash

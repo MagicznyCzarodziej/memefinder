@@ -1,10 +1,8 @@
 import axios from 'axios';
 import config from '@/config';
 
-const env = process.env.NODE_ENV === 'production' ? 'production' : 'development';
-
 const Api = () => axios.create({
-    baseURL: config[env].apiUrl,
+    baseURL: config.apiUrl,
 });
 
 async function getAll() {
