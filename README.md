@@ -24,8 +24,8 @@ npm start
 # install dependencies
 npm install
 
-# serve with hot reload at 192.168.0.122 (change IP to your needs)
-npm run dev
+# serve with hot reload
+npm run serve
 
 # build for production with minification
 npm run build
