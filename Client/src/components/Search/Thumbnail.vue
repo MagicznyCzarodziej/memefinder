@@ -85,8 +85,8 @@ export default {
     width: 1%;
   }
   .memeThumbnail img {
-    max-width: 10rem;
-    min-width: 10rem;
+    max-width: 12rem;
+    min-width: 12rem;
     border-radius: 0.4rem;
   }
 }

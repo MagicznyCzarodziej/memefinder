@@ -181,7 +181,7 @@ body {
 
 @media (min-width: 1000px) {
   #app {
-    margin: 2rem 5rem;
+    margin: 2rem 6rem;
   }
   #searchBar {
     width: 40rem;
@@ -198,9 +198,9 @@ body {
   }
   #foundList {
     column-count: initial;
-    -webkit-column-width: 9.5rem;
-    -moz-column-width: 9.5rem;
-    column-width: 9.5rem;
+    -webkit-column-width: 12rem;
+    -moz-column-width: 12rem;
+    column-width: 12rem;
   }
   #tagsCloud {
     margin-top: 1rem;
