@@ -19,7 +19,15 @@ const memeSchema = new Schema({
     link: {
         type: String,
         required: true
-    }
+    },
+    width: {
+        type: Number,
+        required: true,
+    },
+    height: {
+        type: Number,
+        required: true,
+    },
 }, {
     versionKey: false 
 });

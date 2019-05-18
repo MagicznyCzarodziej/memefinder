@@ -1,9 +1,8 @@
 <template>
   <div class="memeThumbnail">
-    <img :src=src alt="" @click="enlarge">
+    <img :src="meme.link" alt="" @click="enlarge" :height="meme.height/(meme.width/240)">
     <div class="tags">
-      <!-- {{ tags.join(', ') }} -->
-      <span v-for="tag in tags" :key=tag>
+      <span v-for="tag in meme.tags" :key=tag>
         <a :href="'?'+tag">{{ tag }}</a>, 
       </span>
     </div>
@@ -12,7 +11,7 @@
 
 <script>
 export default {
-  props: ['src', 'tags'],
+  props: ['meme'],
   data() {
     return {
 
@@ -30,7 +29,7 @@ export default {
 
 <style>
 .memeThumbnail {
-  margin-bottom: 1rem;    
+  margin-bottom: 1rem; 
   -webkit-column-break-inside: avoid;
   page-break-inside: avoid;
   break-inside: avoid;
@@ -43,6 +42,7 @@ export default {
   width: 100%;
   box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.1), 0rem 0rem 0.1rem rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
+  background-color: #ddd;
   cursor: pointer;
   transition: 0.5s;
 }

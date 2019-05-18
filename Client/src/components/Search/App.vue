@@ -19,7 +19,7 @@
     </div>
     
     <div id="foundList">
-      <Thumbnail v-for="(meme, index) in foundMemes" :key="index" :src="meme.link" :tags="meme.tags" :data-id="meme._id"></Thumbnail>
+      <Thumbnail v-for="(meme, index) in foundMemes" :key="index" :meme="meme" :src="meme.src" :data-id="meme._id"></Thumbnail>
     </div>
     <div id="tagsCloud">
       <a href="?co">co</a> 

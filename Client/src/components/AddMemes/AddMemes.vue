@@ -27,7 +27,7 @@ export default {
     addMeme: async function () {
       this.uploading = true;
       const response = await Imgur.upload(this.file);
-      const link = response.data.data.link;
+      const { link, width, height } = response.data.data;
       const extension = this.file.name.split('.').pop();
       const types = {
         'png': 'image',
@@ -45,6 +45,8 @@ export default {
         tags: this.tags,
         type,
         link,
+        width,
+        height,
       }
       
       const res = await Api.addMeme(meme);

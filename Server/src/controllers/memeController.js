@@ -30,7 +30,10 @@ controller.add = async (req, res) => {
         name: data.name,
         type: data.type,
         tags: data.tags,
-        link: data.link
+        link: data.link,
+        width: data.width,
+        width: data.width,
+        height: data.height,
     });
     try {
         const savedMeme = await Meme.addMeme(meme);
@@ -64,7 +67,9 @@ controller.update = async (req, res) => {
         name: data.name,
         type: data.type,
         tags: data.tags,
-        link: data.link
+        link: data.link,
+        width: data.width,
+        height: data.height,
     });
     try {
         const updatedMeme = await Meme.updateMeme(meme);
