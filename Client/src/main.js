@@ -1,11 +1,11 @@
 import Vue from 'vue';
-import App from '@/components/Search/App.vue';
-import AddMemes from '@/components/AddMemes/AddMemes.vue';
-import EditMeme from '@/components/EditMeme/EditMeme.vue';
+import Home from '@/pages/Home/Home.vue';
+import AddMeme from '@/pages/AddMeme/AddMeme.vue';
+import EditMeme from '@/pages/EditMeme/EditMeme.vue';
 
 const routes = {
-  '/': App,
-  '/AddMemes': AddMemes,
+  '/': Home,
+  '/AddMeme': AddMeme,
   '/EditMeme': EditMeme,
 }
 
@@ -16,7 +16,7 @@ new Vue({
   },
   computed: {
     ViewComponent () {
-      return routes[this.currentRoute] || App;
+      return routes[this.currentRoute] || Home;
     }
   },
   render (h) { return h(this.ViewComponent) }

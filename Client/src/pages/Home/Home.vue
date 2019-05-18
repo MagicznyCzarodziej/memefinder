@@ -1,4 +1,4 @@
-<template>
+n<template>
   <div id="app">
     <div id="searchBar">
       <form onsubmit="document.getElementById('searchInput').blur();return false;" autocomplete="off"><input type="search" id="searchInput" name="searchBar" placeholder="np. kermit, pikachu, pepe" autofocus v-model="query"></form>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import Thumbnail from '@/components/Search/Thumbnail';
+import Thumbnail from '@/pages/Home/Thumbnail';
 import Api from '@/services/Api';
 
 document.title = 'MemeFinder';
@@ -51,7 +51,7 @@ function shuffle(a) {
 
 let self;
 export default {
-  name: 'app',
+  name: 'Home',
   components: {
     Thumbnail,
   },

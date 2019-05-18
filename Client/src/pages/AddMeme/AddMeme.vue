@@ -1,5 +1,5 @@
 <template>
-  <div id="addMemes">
+  <div id="addMeme">
     <div id="header">Dodaj memika</div>
     <div class="inputField"><input type="file" name="memeFile" id="inpFile" accept=".png,.jpg,.jpeg,.bmp,.gif" ref="file" @change="handleFileUpload()"></div>
     <div class="inputField"><label for="memeName">Nazwa</label><input type="text" name="memeName" id="inpName" v-model="name"></div>
@@ -14,7 +14,7 @@ import Imgur from '@/services/Imgur';
 import Api from '@/services/Api';
 
 export default {
-  name: 'AddMemes',
+  name: 'AddMeme',
   data () {
     return {
       name: '',
@@ -84,7 +84,7 @@ export default {
   body {
     margin: 0;
   }
-  #addMemes {
+  #addMeme {
     margin-top: 2rem;
     text-align: center;
     background-color: #eee;
