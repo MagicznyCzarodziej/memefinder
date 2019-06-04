@@ -31,7 +31,7 @@
       </div>
     </div>
     <div id="foundList">
-      <Thumbnail v-for="(meme, index) in foundMemes" :key="index" :meme="meme" :src="meme.src" :data-id="meme._id"></Thumbnail>
+      <Thumbnail v-for="meme in foundMemes" :key="meme._id" :meme="meme" :data-id="meme._id"></Thumbnail>
     </div>
   </div>
 </template>
@@ -52,7 +52,8 @@ function shuffle(a) {
   return a;
 }
 
-let self;
+
+
 export default {
   name: 'Home',
   components: {
@@ -63,6 +64,7 @@ export default {
       query: '',
       allMemes: [],
       foundMemes: [],
+      howMany: 30,
       sort: 'random',
       quotes: [
         '"Nie znam twoich memików, sprawdzę Memedex" - Taco Memingway',
@@ -83,8 +85,16 @@ export default {
     this.allMemes = response.data.data;
     this.query = decodeURIComponent(window.location.search.substring(1));
     if (this.query) return;
-    if (this.sort == 'random') this.foundMemes = shuffle(this.allMemes.slice()).slice(-30);
-    else this.foundMemes = this.allMemes.slice(-30).reverse();
+    if (this.sort == 'random') this.foundMemes = shuffle(this.allMemes.slice()).slice(-this.howMany);
+    else this.foundMemes = this.allMemes.slice(-this.howMany).reverse();
+  },
+  mounted: function () {
+    window.addEventListener('scroll', () => {
+      if (document.querySelector('#app').clientHeight == pageYOffset + innerHeight && this.howMany < this.allMemes.length) {
+        this.howMany += 10;
+        this.displayMemes();
+      }
+    });
   },
   watch: {
     query: function (newQuery, oldQuery) {
@@ -110,8 +120,8 @@ export default {
   methods: {
     displayMemes(newQuery = this.query, oldQuery = '') {
       if (newQuery.length < 2) {
-        if (this.sort == 'random') this.foundMemes = shuffle(this.allMemes.slice()).slice(-30);
-        else this.foundMemes = this.allMemes.slice(-30).reverse();
+        if (this.sort == 'random') this.foundMemes = shuffle(this.allMemes.slice()).slice(-this.howMany);
+        else this.foundMemes = this.allMemes.slice(-this.howMany).reverse();
         return;
       }
       newQuery = newQuery.toLowerCase();
@@ -148,6 +158,9 @@ body {
 </style>
 
 <style scoped>
+#app {
+  padding-bottom: 2rem;
+}
 #header {
   background-color: #343F74;
   color: #eee;
@@ -228,7 +241,7 @@ body {
 }
 #foundList {
   columns: 2;
-  margin: 0 2rem 2rem 2rem;
+  margin: 0 2rem;
 }
 #tagsCloud {
   background-color: #343F74;

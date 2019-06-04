@@ -12,11 +12,6 @@
 <script>
 export default {
   props: ['meme'],
-  data() {
-    return {
-
-    };
-  },
   methods: {
     enlarge(event) {
       // event.target.classList.toggle('large');
