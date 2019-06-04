@@ -63,7 +63,7 @@ export default {
       query: '',
       allMemes: [],
       foundMemes: [],
-      sort: 'new',
+      sort: 'random',
       quotes: [
         '"Nie znam twoich memików, sprawdzę Memedex" - Taco Memingway',
         '"Potrzeba wiecej memików, sir" - Skryba',
@@ -108,7 +108,7 @@ export default {
     }
   },
   methods: {
-    displayMemes(newQuery = '', oldQuery = '') {
+    displayMemes(newQuery = this.query, oldQuery = '') {
       if (newQuery.length < 2) {
         if (this.sort == 'random') this.foundMemes = shuffle(this.allMemes.slice()).slice(-30);
         else this.foundMemes = this.allMemes.slice(-30).reverse();
