@@ -1,7 +1,20 @@
-n<template>
+<template>
   <div id="app">
-    <div id="searchBar">
-      <form onsubmit="document.getElementById('searchInput').blur();return false;" autocomplete="off"><input type="search" id="searchInput" name="searchBar" placeholder="np. kermit, pikachu, pepe" autofocus v-model="query"></form>
+    <div id="header">
+      <div id="title">Memedex
+        <span id="quote">{{ quote }}</span>
+      </div>
+      <div id="searchBar">
+        <form onsubmit="document.getElementById('searchInput').blur();return false;" autocomplete="off">
+          <input type="search" id="searchInput" name="searchBar" placeholder="np. kermit, pikachu, pepe" autofocus v-model="query">
+        </form>
+      </div>
+    </div>
+    <div id="controlBar">
+      <div id="sort">
+        <div id="sortRandom" class="sortButton" v-bind:class="sort == 'random' ? 'sortActive' : ''" @click="sort='random'">Losowo</div>
+        <div id="sortNew" class="sortButton" v-bind:class="sort == 'new' ? 'sortActive' : ''" @click="sort='new'">Najnowsze</div>
+      </div>
       <div v-if="query.length > 1" id="foundLabel">
         <span v-if="searching">Szukanie (・へ・)</span>
         <span v-else-if="foundCount === 0">Nie znaleziono żadnego memika ( ͡° ʖ̯ ͡°)ﾉ⌐■-■ </span>
@@ -13,22 +26,12 @@ n<template>
         <span>Mamy w bazie {{ allMemes.length }} 
           <span v-if="allMemes.length % 10 >= 2 && allMemes.length % 10 <= 4">memiki</span>
           <span v-else>memików</span> 
-           ( ͡€ ͜ʖ ͡€)
+            ( ͡€ ͜ʖ ͡€)
         </span>
       </div>
     </div>
-    
     <div id="foundList">
       <Thumbnail v-for="(meme, index) in foundMemes" :key="index" :meme="meme" :src="meme.src" :data-id="meme._id"></Thumbnail>
-    </div>
-    <div id="tagsCloud">
-      <a href="?co">co</a> 
-      <a href="?śmiech">śmiech</a> 
-      <a href="?meksykanin">meksykanin</a> 
-      <a href="?gwiezdne wojny">gwiezdne wojny</a>
-      <a href="?komputer">komputer</a>
-      <a href="?głowa">głowa</a>
-      <a href="?kot">kot</a>
     </div>
   </div>
 </template>
@@ -60,49 +63,41 @@ export default {
       query: '',
       allMemes: [],
       foundMemes: [],
+      sort: 'new',
+      quotes: [
+        '"Nie znam twoich memików, sprawdzę Memedex" - Taco Memingway',
+        '"Potrzeba wiecej memików, sir" - Skryba',
+        '"It\'s time to post memes and chew bubblegum... and I\'m all outta gum."',
+        '"Życie jest jak pudełko memików. Nigdy nie wiesz, co ci się trafi" - Forrest Gump',
+        '"Memików nie ma, ale też jest zajebiście" - Laska',
+        '"Memes. Memes never changes."',
+        '"Przed wyruszeniem w drogę należy zebrać memiki."',
+        '"Hmmm" - Minecraft Villager',
+      ],
+      quote: '',
     };
   },
-  created: async function () {
+  created: async function () {    
+    this.quote = this.quotes[Math.floor(Math.random()*(this.quotes.length))];
     const response = await Api.getAll();
     this.allMemes = response.data.data;
-    shuffle(this.allMemes)
-    const length = this.allMemes.length;
     this.query = decodeURIComponent(window.location.search.substring(1));
-    if (!this.query) this.foundMemes = this.allMemes.slice(0, 20);
-  
-    self = this;
+    if (this.query) return;
+    if (this.sort == 'random') this.foundMemes = shuffle(this.allMemes.slice()).slice(-30);
+    else this.foundMemes = this.allMemes.slice(-30).reverse();
   },
   watch: {
-    query: (newQuery, oldQuery) => {
-      function displayMemes() {
-        if (newQuery.length < 2) {
-          self.foundMemes = self.allMemes.slice(0, 20);
-          return;
-        }
-        newQuery = newQuery.toLowerCase();
-        newQuery = newQuery.replace(/[^,\sąęłńóśźż\w]/g, "");
-        let parts = newQuery.match(/[\w\sąęłńóśźż]+/g);
-
-        self.foundMemes = self.allMemes.filter((meme) => {
-          let flag = false;
-          const tags = meme.tags.join(',');
-          
-          parts.forEach(q => {
-            const index = tags.search(q);
-            flag = index !== -1;
-          });
-
-          return flag;
-        });
-      }
-
+    query: function (newQuery, oldQuery) {
       // Debouncer
-      self.searching = true;
+      this.searching = true;
       clearTimeout(timer);
       timer = setTimeout(() => {
-        displayMemes();
-        self.searching = false;
+        this.displayMemes(newQuery, oldQuery);
+        this.searching = false;
       }, 400);
+    },
+    sort: function () {
+      this.displayMemes();
     }
   },
   computed: {
@@ -110,6 +105,30 @@ export default {
       get: function () {
         return this.foundMemes.length;
       },
+    }
+  },
+  methods: {
+    displayMemes(newQuery = '', oldQuery = '') {
+      if (newQuery.length < 2) {
+        if (this.sort == 'random') this.foundMemes = shuffle(this.allMemes.slice()).slice(-30);
+        else this.foundMemes = this.allMemes.slice(-30).reverse();
+        return;
+      }
+      newQuery = newQuery.toLowerCase();
+      newQuery = newQuery.replace(/[^,\sąęłńóśźż\w]/g, "");
+      let parts = newQuery.match(/[\w\sąęłńóśźż]+/g);
+
+      this.foundMemes = this.allMemes.filter((meme) => {
+        let flag = false;
+        const tags = meme.tags.join(',');
+        
+        parts.forEach(q => {
+          const index = tags.search(q);
+          flag = index !== -1;
+        });
+
+        return flag;
+      });
     }
   }
 }
@@ -121,20 +140,34 @@ html {
   font-size: 20px;
   font-family: Roboto, sans-serif;
   background: url('../../assets/bg.png');
+  margin: 0;
 }
 body {
   margin: 0;
 }
-#app {
-  margin: 3rem 3rem;
+</style>
+
+<style scoped>
+#header {
+  background-color: #343F74;
+  color: #eee;
+  padding: 1rem 2rem;
+}
+#title {
+  font-size: 4rem;
+}
+#quote {
+  display: block;
+  font-size: 2rem;
+  font-weight: 300;
+  font-style: italic;
 }
 #searchBar {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 1rem 0;
 }
 #searchBar input {
   width: 100%;
-  height: 8rem;
+  height: 6rem;
   box-sizing: border-box;
   padding: 0 3rem;
   background-color: #fff;
@@ -146,71 +179,115 @@ body {
 }
 #searchBar input:focus { 
   outline: none !important;
-
 }
 #searchBar input::placeholder {
   color: #bbb;
 }
+#controlBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 2rem 2rem;
+  text-align: center;
+}
+#sort {
+  font-size: 3rem;
+}
+.sortButton{
+  width: 50%;
+  box-sizing: border-box;
+  background-color: #ddd;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.1), 0rem 0rem 0.1rem rgba(0, 0, 0, 0.1);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; 
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+#sortRandom {
+  display: inline-block;
+  border-top-left-radius: 0.6rem;
+  border-bottom-left-radius: 0.6rem;
+}
+#sortNew {
+  display: inline-block;
+  border-top-right-radius: 0.6rem;
+  border-bottom-right-radius: 0.6rem;
+}
+.sortActive {
+  background: #343F74;
+  color: #eee;
+}
+
 #foundLabel {
-  margin: 0.5rem 0 0.5rem 0.5rem;
-  color: #aaa;
-  font-size: 2rem;
-  font-weight: 300;
-  line-height: 5rem;
+  display: none;
 }
 #foundList {
   columns: 2;
+  margin: 0 2rem 2rem 2rem;
 }
 #tagsCloud {
+  background-color: #343F74;
+  /* column-count: 2; */
   margin-top: 2rem;
+  padding: 1rem 2rem;
   text-align: center;
-}
-#tagsCloud a {
-  font-size: 4rem;
-  margin: 1rem 0;
-  color: #aaa;
-  text-decoration: none;
-  background-color: #eee;
-  border-radius: 1rem;
-  padding: 0.3rem 1rem;
-  display: block;
-}
-#tagsCloud a:hover {
-  background-color: #ddd;
+  box-shadow: 0 -0.1rem 0.4rem rgba(0, 0, 0, 0.5);
 }
 
 @media (min-width: 1000px) {
-  #app {
-    margin: 2rem 6rem;
+  #title {
+    font-size: 3rem;
   }
-  #searchBar {
-    width: 40rem;
+  #quote {
+    font-size: 1rem;
   }
   #searchBar input {
-    height: 3rem;
+    height: 2.5rem;
     padding: 0 1rem;
     font-size: 1.2rem;
     border-radius: 0.4rem;
   }
+  #controlBar {
+    flex-direction: row;
+    margin: 1rem 2rem;
+  }
+  #sort {
+    font-size: 1rem;
+    margin: 0;
+  }
+  .sortButton{
+    width: initial;
+    float: left;
+    padding: 0.3rem 0.6rem;
+  }
+  #sortRandom {
+  display: inline;
+  border-top-left-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+  }
+  #sortNew {
+    display: inline;
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+  }
   #foundLabel {
-    font-size: 0.8rem;
-    line-height: 2rem;
+    display: block;
+    color: #aaa;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8rem;
+    float: right;
   }
   #foundList {
     column-count: initial;
     -webkit-column-width: 12rem;
     -moz-column-width: 12rem;
     column-width: 12rem;
-  }
-  #tagsCloud {
-    margin-top: 1rem;
-  }
-  #tagsCloud a {
-    display: inline;
-    font-size: 1rem;
-    margin: 0;
-    padding: 0.1rem 0.3rem;
-    border-radius: 0.3rem;
   }
 }
 </style>

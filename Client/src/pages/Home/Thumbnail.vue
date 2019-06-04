@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .memeThumbnail {
   margin-bottom: 1rem; 
   -webkit-column-break-inside: avoid;
@@ -49,10 +49,6 @@ export default {
 .large {
   max-width: 20rem !important;
   width: 20rem !important;
-}
-.memeThumbnail > img:hover + .tags {
-  visibility : visible;
-  transition-delay: 0.5s;
 }
 .tags {
   width: 100%;
@@ -82,12 +78,16 @@ export default {
 
 @media (min-width: 1000px) {
   .memeThumbnail {
-    width: 1%;
+    width: 12rem; /* Without this, tags are too wide */
   }
   .memeThumbnail img {
     max-width: 12rem;
     min-width: 12rem;
     border-radius: 0.4rem;
   }
+  .memeThumbnail > img:hover + .tags {
+  visibility : visible;
+  transition-delay: 0.5s;
+}
 }
 </style>

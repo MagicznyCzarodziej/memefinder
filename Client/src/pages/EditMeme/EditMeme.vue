@@ -50,7 +50,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   html {
     font-size: 20px;
     font-family: Roboto, sans-serif;
