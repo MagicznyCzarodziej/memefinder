@@ -40,7 +40,7 @@
 import Thumbnail from '@/pages/Home/Thumbnail';
 import Api from '@/services/Api';
 
-document.title = 'MemeFinder';
+document.title = 'Memedex';
 
 let timer = 0;
 
