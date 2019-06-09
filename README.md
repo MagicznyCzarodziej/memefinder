@@ -1,5 +1,7 @@
 # MemeFinder
 
+![screenshot](https://i.imgur.com/jL6izFM.png)
+
 ## Config
 1. Create `config.json` in `Server\src\`
 2. Create `.env` in `Client\` (see `.env.template`)
