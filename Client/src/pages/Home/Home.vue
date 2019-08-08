@@ -65,18 +65,19 @@ export default {
       query: '',
       allMemes: [],
       foundMemes: [],
+      shuffledMemes: [],
       howMany: 30,
       sort: 'random',
     };
   },
   created: async function () {    
-
     const response = await Api.getAll();
     this.allMemes = response.data.data;
+    this.shuffledMemes = shuffle(this.allMemes.slice());
     this.query = decodeURIComponent(window.location.search.substring(1));
     if (this.query) return;
-    if (this.sort == 'random') this.foundMemes = shuffle(this.allMemes.slice()).slice(-this.howMany);
-    else this.foundMemes = this.allMemes.slice(-this.howMany).reverse();
+    if (this.sort == 'random') this.foundMemes = this.shuffledMemes.slice(0, this.howMany);
+    else this.foundMemes = this.allMemes.slice(0, this.howMany);
   },
   mounted: function () {
     window.addEventListener('scroll', () => {
@@ -128,7 +129,7 @@ export default {
   methods: {
     displayMemes(newQuery = this.query, oldQuery = '') {
       if (newQuery.length < 2) {
-        if (this.sort == 'random') this.foundMemes = shuffle(this.allMemes.slice()).slice(-this.howMany);
+        if (this.sort == 'random') this.foundMemes = this.shuffledMemes.slice(0, this.howMany);
         else this.foundMemes = this.allMemes.slice(-this.howMany).reverse();
         return;
       }
@@ -167,7 +168,7 @@ body {
 
 <style scoped>
 #app {
-  padding-bottom: 2rem;
+  padding-bottom: 10rem;
 }
 #header {
   background-color: #343F74;
