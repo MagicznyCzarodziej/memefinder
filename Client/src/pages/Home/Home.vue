@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import Macy from 'macy';
 import Thumbnail from '@/pages/Home/Thumbnail';
 import Api from '@/services/Api';
 
@@ -93,6 +94,24 @@ export default {
       if (document.querySelector('#app').clientHeight == pageYOffset + innerHeight && this.howMany < this.allMemes.length) {
         this.howMany += 10;
         this.displayMemes();
+      }
+    });
+  },
+  updated: function () {
+        const macyInstance = Macy({
+      container: '#foundList',
+      columns: 2,
+      mobileFirst: true,
+      margin: {
+        x: 20,
+        y: 20,
+      },
+      breakAt: {
+        1000: 3,
+        1140: 4,
+        1400: 5,
+        1660: 6,
+        1920: 7,
       }
     });
   },
@@ -240,7 +259,7 @@ body {
   display: none;
 }
 #foundList {
-  columns: 2;
+  /* columns: 2; */
   margin: 0 2rem;
 }
 #tagsCloud {
@@ -295,12 +314,6 @@ body {
     font-weight: 300;
     line-height: 1.8rem;
     float: right;
-  }
-  #foundList {
-    column-count: initial;
-    -webkit-column-width: 12rem;
-    -moz-column-width: 12rem;
-    column-width: 12rem;
   }
 }
 </style>

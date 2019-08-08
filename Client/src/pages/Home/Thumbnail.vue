@@ -24,13 +24,7 @@ export default {
 
 <style scoped>
 .memeThumbnail {
-  margin-bottom: 1rem; 
-  -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
-  break-inside: avoid;
-  display: table;
   position: relative;
-  width: 100%;
 }
 .memeThumbnail img {
   display: block;
@@ -81,8 +75,8 @@ export default {
     border-radius: 0.4rem;
   }
   .memeThumbnail > img:hover + .tags {
-  visibility : visible;
-  transition-delay: 0.5s;
-}
+    visibility : visible;
+    transition-delay: 0.5s;
+  }
 }
 </style>
