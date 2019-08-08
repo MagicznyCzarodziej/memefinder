@@ -40,7 +40,7 @@ export default {
   width: 20rem !important;
 }
 .tags {
-  width: 100%;
+  width: 12rem;
   box-sizing: border-box;
   position: absolute;
   visibility: hidden;
