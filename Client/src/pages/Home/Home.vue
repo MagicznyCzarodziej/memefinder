@@ -237,21 +237,11 @@ body {
   background: #343F74;
   color: #eee;
 }
-
 #foundLabel {
   display: none;
 }
 #foundList {
-  /* columns: 2; */
   margin: 0 2rem;
-}
-#tagsCloud {
-  background-color: #343F74;
-  /* column-count: 2; */
-  margin-top: 2rem;
-  padding: 1rem 2rem;
-  text-align: center;
-  box-shadow: 0 -0.1rem 0.4rem rgba(0, 0, 0, 0.5);
 }
 
 @media (min-width: 1000px) {
@@ -278,9 +268,9 @@ body {
     padding: 0.3rem 0.6rem;
   }
   #sortRandom {
-  display: inline;
-  border-top-left-radius: 0.3rem;
-  border-bottom-left-radius: 0.3rem;
+    display: inline;
+    border-top-left-radius: 0.3rem;
+    border-bottom-left-radius: 0.3rem;
   }
   #sortNew {
     display: inline;
