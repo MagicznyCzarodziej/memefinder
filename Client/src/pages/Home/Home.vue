@@ -2,7 +2,7 @@
   <div id="app">
     <div id="header">
       <div id="title">Memedex
-        <span id="quote">{{ quote }}</span>
+        <Quote/>
       </div>
       <div id="searchBar">
         <form onsubmit="document.getElementById('searchInput').blur();return false;" autocomplete="off">
@@ -39,6 +39,7 @@
 <script>
 import Macy from 'macy';
 import Thumbnail from '@/pages/Home/Thumbnail';
+import Quote from '@/components/Quote';
 import Api from '@/services/Api';
 
 document.title = 'Memedex';
@@ -53,12 +54,11 @@ function shuffle(a) {
   return a;
 }
 
-
-
 export default {
   name: 'Home',
   components: {
     Thumbnail,
+    Quote,
   },
   data () {
     return {
@@ -67,21 +67,10 @@ export default {
       foundMemes: [],
       howMany: 30,
       sort: 'random',
-      quotes: [
-        '"Nie znam twoich memików, sprawdzę Memedex" - Taco Memingway',
-        '"Potrzeba wiecej memików, sir" - Skryba',
-        '"It\'s time to post memes and chew bubblegum... and I\'m all outta gum."',
-        '"Życie jest jak pudełko memików. Nigdy nie wiesz, co ci się trafi" - Forrest Gump',
-        '"Memików nie ma, ale też jest zajebiście" - Laska',
-        '"Memes. Memes never changes."',
-        '"Przed wyruszeniem w drogę należy zebrać memiki."',
-        '"Hmmm" - Minecraft Villager',
-      ],
-      quote: '',
     };
   },
   created: async function () {    
-    this.quote = this.quotes[Math.floor(Math.random()*(this.quotes.length))];
+
     const response = await Api.getAll();
     this.allMemes = response.data.data;
     this.query = decodeURIComponent(window.location.search.substring(1));
@@ -98,7 +87,7 @@ export default {
     });
   },
   updated: function () {
-        const macyInstance = Macy({
+    const macyInstance = Macy({
       container: '#foundList',
       columns: 2,
       mobileFirst: true,
@@ -188,12 +177,6 @@ body {
 #title {
   font-size: 4rem;
 }
-#quote {
-  display: block;
-  font-size: 2rem;
-  font-weight: 300;
-  font-style: italic;
-}
 #searchBar {
   margin: 1rem 0;
 }
@@ -274,9 +257,6 @@ body {
 @media (min-width: 1000px) {
   #title {
     font-size: 3rem;
-  }
-  #quote {
-    font-size: 1rem;
   }
   #searchBar input {
     height: 2.5rem;
