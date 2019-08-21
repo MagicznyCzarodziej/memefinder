@@ -1,5 +1,0 @@
-{
-    "database": {
-        "uri": "mongodb://<dbuser>:<dbpassword>@example.com:00000/collection"
-    }
-}

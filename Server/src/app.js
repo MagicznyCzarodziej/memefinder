@@ -4,8 +4,9 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import connectDb from './database.js';
-import MemeController from './controllers/MemeController.js';
-import UserController from './controllers/UserController.js';
+import MemeController from './controllers/MemeController';
+import UserController from './controllers/UserController';
+import AuthMiddleware from './middleware/auth';
 
 const app = express();
 const port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
@@ -23,7 +24,10 @@ app.post('/memes', memeControllerInstance.add);
 app.delete('/memes', memeControllerInstance.delete);
 app.put('/memes', memeControllerInstance.update);
 
-// app.get('/login', UserController.login);
+const userControllerInstance = new UserController;
+
+app.post('/register', AuthMiddleware, userControllerInstance.register);
+app.post('/login', userControllerInstance.login);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
