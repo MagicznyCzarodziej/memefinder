@@ -19,9 +19,16 @@ export default class UserController {
       const userToRegister = req.body;
       const authServiceInstance = new AuthService();
       const result = authServiceInstance.register(userToRegister);
-      res.send({ status: 'success', data: result });
+      res.send({ data: result });
     } catch(error) {
-      res.send({ status: 'error', data: null });
+      res.status(500).send({
+        data: {
+          error: {
+            code: 'SERVER_ERROR',
+            message: 'Something went wrong',
+          }
+        }
+      });
     }
   }
 
@@ -31,8 +38,7 @@ export default class UserController {
       const authServiceInstance = new AuthService();
       const result = await authServiceInstance.login({ username, password });
       res.send({
-        data: result,
-      });
+        data: result,});
     } catch (error) {  
       res.status(401).send({
         data: {

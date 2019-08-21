@@ -7,10 +7,16 @@ export default class MemeController {
   async getAll(req, res) {
     try {
       const memes = await Meme.getAll();
-      res.send({ status: 'success', data: memes });
+      res.send({ data: memes });
     } catch(error) {
-      console.log(`Error in getting memes: ${error}`);
-      res.send({ status: 'error', data: null });
+      res.status(500).send({
+        data: {
+          error: {
+            code: 'SERVER_ERROR',
+            message: 'Something went wrong',
+          },
+        },
+      });
     }
   }
 
@@ -18,10 +24,16 @@ export default class MemeController {
     const id = req.params.id;
     try {
       const meme = await Meme.getById(id);
-      res.send({ status: 'success', data: meme });
+      res.send({ data: meme });
     } catch(error) {
-      console.log(`Error in getting meme: ${error}`);
-      res.send({ status: 'error', data: null });
+      res.status(500).send({
+        data: {
+          error: {
+            code: 'SERVER_ERROR',
+            message: 'Something went wrong',
+          },
+        },
+      });
     }
   };
 
@@ -38,11 +50,16 @@ export default class MemeController {
     });
     try {
       const savedMeme = await Meme.addMeme(meme);
-      console.log('Adding meme...');
-      res.send({ status: 'success', data: savedMeme });
+      res.send({ data: savedMeme });
     } catch(error) {
-      console.log(`Error in adding meme: ${error}`);
-      res.send({ status: 'error', data: null });
+      res.status(500).send({
+        data: {
+          error: {
+            code: 'SERVER_ERROR',
+            message: 'Something went wrong',
+          },
+        },
+      });
     }
   };
 
@@ -52,12 +69,16 @@ export default class MemeController {
     try {
       const deletedMeme = await Meme.deleteMeme(name);
       const deletedCount = deletedMeme.deletedCount;
-
-      console.log(`Removing meme "${name}"`);
-      res.send({ status: 'success', data: { name, deletedCount } });
+      res.send({ data: { name, deletedCount } });
     } catch(error) {
-      console.log(`Error in removing meme: ${error}`);
-      res.send({ status: 'error', data: null });
+      res.status(500).send({
+        data: {
+          error: {
+            code: 'SERVER_ERROR',
+            message: 'Something went wrong',
+          },
+        },
+      });
     }
   };
 
@@ -75,11 +96,17 @@ export default class MemeController {
     });
     try {
       const updatedMeme = await Meme.updateMeme(meme);
-      console.log('Updating meme...');
-      res.send({ status: 'success', data: updatedMeme });
+      res.send({ data: updatedMeme });
     } catch(error) {
       console.log(`Error in updating meme: ${error}`);
-      res.send({ status: 'error', data: null });
+      res.status(500).send({
+        data: {
+          error: {
+            code: 'SERVER_ERROR',
+            message: 'Something went wrong',
+          },
+        },
+      });
     }
   };
 }
