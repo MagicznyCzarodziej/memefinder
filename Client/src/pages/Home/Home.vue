@@ -1,8 +1,16 @@
 <template>
   <div id="app">
     <div id="header">
-      <div id="title">Memedex
-        <Quote/>
+      <div class="topbarWrapper">
+        <div id="title">Memedex
+          <Quote/>
+        </div>
+        <div class="user">
+          <div class="loginBtn" v-if="!isLoggedId">Zaloguj</div>
+          <div v-else>
+            No elo, {{ username }}
+          </div>
+        </div>
       </div>
       <div id="searchBar">
         <form onsubmit="document.getElementById('searchInput').blur();return false;" autocomplete="off">
@@ -68,6 +76,8 @@ export default {
       shuffledMemes: [],
       howMany: 30,
       sort: 'random',
+      isLoggedId: false,
+      username: '',
     };
   },
   created: async function () {    
@@ -246,8 +256,20 @@ body {
 }
 
 @media (min-width: 1000px) {
+  .topbarWrapper {
+    display: flex;
+    flex-direction: row;
+  }
   #title {
     font-size: 3rem;
+    flex: 1;
+  }
+  .loginBtn {
+    margin-top: 0.5rem;
+    padding: 0.4rem 1.2rem;
+    font-size: 1.2rem;
+    border: 2px solid #eee;
+    border-radius: 0.4rem;
   }
   #searchBar input {
     height: 2.5rem;
