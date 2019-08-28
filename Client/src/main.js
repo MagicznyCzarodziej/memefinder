@@ -1,12 +1,14 @@
 import Vue from 'vue';
-import Home from '@/pages/Home/Home.vue';
-import AddMeme from '@/pages/AddMeme/AddMeme.vue';
-import EditMeme from '@/pages/EditMeme/EditMeme.vue';
+import Home from '@/pages/Home';
+import AddMeme from '@/pages/AddMeme';
+import EditMeme from '@/pages/EditMeme';
+import Login from '@/pages/Login';
 
 const routes = {
   '/': Home,
-  '/AddMeme': AddMeme,
-  '/EditMeme': EditMeme,
+  '/addMeme': AddMeme,
+  '/editMeme': EditMeme,
+  '/login': Login,
 }
 
 new Vue({

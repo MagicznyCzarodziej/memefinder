@@ -1,23 +1,8 @@
 <template>
   <div id="app">
-    <div id="header">
-      <div class="topbarWrapper">
-        <div id="title">Memedex
-          <Quote/>
-        </div>
-        <div class="user">
-          <div class="loginBtn" v-if="!isLoggedId">Zaloguj</div>
-          <div v-else>
-            No elo, {{ username }}
-          </div>
-        </div>
-      </div>
-      <div id="searchBar">
-        <form onsubmit="document.getElementById('searchInput').blur();return false;" autocomplete="off">
-          <input type="search" id="searchInput" name="searchBar" placeholder="np. kermit, pikachu, pepe" autofocus v-model="query">
-        </form>
-      </div>
-    </div>
+    <Header>
+      <Searchbar v-on:query="updateQuery"/>
+    </Header>
     <div id="controlBar">
       <div id="sort">
         <div id="sortRandom" class="sortButton" v-bind:class="sort == 'random' ? 'sortActive' : ''" @click="sort='random'">Losowo</div>
@@ -46,8 +31,9 @@
 
 <script>
 import Macy from 'macy';
-import Thumbnail from '@/pages/Home/Thumbnail';
-import Quote from '@/components/Quote';
+import Thumbnail from '@/components/Thumbnail';
+import Header from '@/components/Header';
+import Searchbar from '@/components/Searchbar';
 import Api from '@/services/Api';
 
 document.title = 'Memedex';
@@ -66,7 +52,8 @@ export default {
   name: 'Home',
   components: {
     Thumbnail,
-    Quote,
+    Header,
+    Searchbar,
   },
   data () {
     return {
@@ -137,6 +124,9 @@ export default {
     }
   },
   methods: {
+    updateQuery(value) {
+      this.query = value;
+    },
     displayMemes(newQuery = this.query, oldQuery = '') {
       if (newQuery.length < 2) {
         if (this.sort == 'random') this.foundMemes = this.shuffledMemes.slice(0, this.howMany);
@@ -168,7 +158,7 @@ export default {
 html {
   font-size: 20px;
   font-family: Roboto, sans-serif;
-  background: url('../../assets/bg.png');
+  background: url('../assets/bg.png');
   margin: 0;
 }
 body {
@@ -179,35 +169,6 @@ body {
 <style scoped>
 #app {
   padding-bottom: 10rem;
-}
-#header {
-  background-color: #343F74;
-  color: #eee;
-  padding: 1rem 2rem;
-}
-#title {
-  font-size: 4rem;
-}
-#searchBar {
-  margin: 1rem 0;
-}
-#searchBar input {
-  width: 100%;
-  height: 6rem;
-  box-sizing: border-box;
-  padding: 0 3rem;
-  background-color: #fff;
-  font-size: 3rem;
-  font-family: Roboto;
-  border-radius: 1rem;
-  border: none;
-  box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.1), 0rem 0rem 0.1rem rgba(0, 0, 0, 0.1);
-}
-#searchBar input:focus { 
-  outline: none !important;
-}
-#searchBar input::placeholder {
-  color: #bbb;
 }
 #controlBar {
   display: flex;
@@ -256,27 +217,6 @@ body {
 }
 
 @media (min-width: 1000px) {
-  .topbarWrapper {
-    display: flex;
-    flex-direction: row;
-  }
-  #title {
-    font-size: 3rem;
-    flex: 1;
-  }
-  .loginBtn {
-    margin-top: 0.5rem;
-    padding: 0.4rem 1.2rem;
-    font-size: 1.2rem;
-    border: 2px solid #eee;
-    border-radius: 0.4rem;
-  }
-  #searchBar input {
-    height: 2.5rem;
-    padding: 0 1rem;
-    font-size: 1.2rem;
-    border-radius: 0.4rem;
-  }
   #controlBar {
     flex-direction: row;
     margin: 1rem 2rem;
