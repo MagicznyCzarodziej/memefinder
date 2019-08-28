@@ -3,6 +3,9 @@ import config from '@/config';
 
 const Api = () => axios.create({
     baseURL: config.apiUrl,
+    headers: {
+        Authorization: localStorage.getItem('auth_token'),
+    },
 });
 
 async function getAll() {
