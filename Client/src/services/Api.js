@@ -24,10 +24,15 @@ async function updateMeme(meme) {
     return await Api().put('memes', meme);
 }
 
+async function login(credentials) {
+    return await Api().post('login', credentials);
+}
+
 export default {
     getAll,
     addMeme,
     getById,
     removeMeme,
     updateMeme,
+    login,
 };

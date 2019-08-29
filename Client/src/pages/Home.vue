@@ -63,8 +63,6 @@ export default {
       shuffledMemes: [],
       howMany: 30,
       sort: 'random',
-      isLoggedId: false,
-      username: '',
     };
   },
   created: async function () {    

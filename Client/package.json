@@ -12,7 +12,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "macy": "^2.5.0",
-    "vue": "^2.5.11"
+    "vue": "^2.5.11",
+    "vuex": "^3.1.1"
   },
   "browserslist": [
     "> 1%",

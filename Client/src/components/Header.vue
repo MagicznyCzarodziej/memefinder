@@ -3,7 +3,19 @@
     <div class="logo">Memedex</div>
     <slot/>
     <div class="user">
-      <div class="loginBtn">Zaloguj</div>
+      <button v-if="currentPath !== '/login' && !$store.state.isLoggedIn"
+        class="loginBtn"
+        @click="gotoLogin"
+      >
+        Zaloguj
+      </button>
+      <button v-else-if="currentPath !== '/login'"
+        class="loginBtn"
+        @click="logout"
+        :title="'Zalogowano jako: ' + $store.state.username"
+      >
+        Wyloguj
+      </button>
     </div>
   </div>
 </template>
@@ -18,9 +30,15 @@ export default {
   },
   data() {
     return {
-      
+      currentPath: window.location.pathname,
     };
   },
+  methods: {
+    gotoLogin: () => window.location='/login',
+    logout() {
+      this.$store.commit('logout');
+    },
+  }
 }
 </script>
 
@@ -37,12 +55,18 @@ export default {
   font-size: 4rem;
 }
 .loginBtn {
+  display: block;
   padding: 0.4rem 1.2rem;
   font-size: 2rem;
   border: 2px solid #eee;
   border-radius: 0.4rem;
   text-align: center;
-  cursor: pointer;
+   color: #eee;
+  text-decoration: none;
+}
+.loginBtn:hover {
+  background-color: #eee;
+  color: #000;
 }
 
 @media (min-width: 1000px) {
@@ -56,6 +80,8 @@ export default {
   }
   .loginBtn {
     font-size: 1.2rem;
+    background: none;
+    cursor: pointer;
   }
 }
 </style>
